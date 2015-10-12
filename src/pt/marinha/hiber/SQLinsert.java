@@ -6,13 +6,18 @@
 package pt.marinha.hiber;
 
 import java.sql.Connection;
+import java.sql.Date;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 public class SQLinsert {
+
     private static final Logger LOG = Logger.getLogger(SQLinsert.class.getName());
 
     static final String JDBC_DRIVER = "org.apache.derby.jdbc.EmbeddedDriver";
@@ -37,9 +42,34 @@ public class SQLinsert {
 //            LOG.fine("Conexão OK");// este log só aparece em debug
             LOG.info("Conexão OK");
         } catch (SQLException ex) {
-            Logger.getLogger(SQLinsert.class.getName()).log(Level.SEVERE, null, ex);
+            LOG.log(Level.SEVERE, null, ex);
         }
 
+        //criar obj formando
+        Formando f1 = new Formando();
+        f1.nome = "Antoniod";
+        f1.apelido = "Carlos";
+        f1.nii = "126322";
+        SimpleDateFormat sdf = new SimpleDateFormat("yyy-mm-dd");
+        try {
+            f1.dataNascimento = sdf.parse("1970-09-01");
+        } catch (ParseException ex) {
+            LOG.warning("Problemas na criação da data ");
+        }
+        String q = "INSERT INTO formando (NOME, APELIDO, NII, DATANASCIMENTO) VALUES(?,?,?,?)";
+        try{
+            p = c.prepareStatement(q);
+        p.setString(1, f1.nome);
+        p.setString(2, f1.apelido);
+        p.setString(3, f1.nii);
+        p.setDate(4, new Date(f1.dataNascimento.getTime()));
+
+        p.executeUpdate();
+        LOG.info("Registo na base de dados OK");
+        }
+        catch (SQLException ex){
+            LOG.severe(ex.toString());
+        }
     }
 
 }

@@ -3,7 +3,7 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package Identidade;
+package pt.marinha.hiber;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -14,10 +14,12 @@ import java.util.Date;
  * @author Formação
  */
 public class Formando {
-    String nome;
-    String apelido;
-    String nii;
-    Date dataNascimento;
+
+    public String nome;
+    public String apelido;
+    public String nii;
+    public Date dataNascimento;
+
     public static void main(String[] args) throws ParseException {
 //        Formando f1 = new Formando();
 //        f1.nome = "Cesar";
